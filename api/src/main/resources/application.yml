@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: orders
+  
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:orders}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+aws:
+  region: ${AWS_REGION:us-east-1}
+  sqs:
+    order-queue-url: ${AWS_SQS_ORDER_QUEUE_URL}
+  dynamodb:
+    order-table-name: ${AWS_DYNAMODB_ORDER_TABLE_NAME:Orders}
+    endpoint: ${AWS_DYNAMODB_ENDPOINT:http://localhost:4566}
